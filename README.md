@@ -1,3 +1,5 @@
+# requirement 
+
 langchain
 openai
 tiktoken 
@@ -9,3 +11,4 @@ unstructured
 pymupdf
 streamlit
 python-dotenv
+

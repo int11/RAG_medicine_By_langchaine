@@ -10,8 +10,10 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
+from dotenv import load_dotenv
 
-os.environ["OPENAI_API_KEY"] = ""
+load_dotenv()
+os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 # 시스템 프롬프트 정의
 SYS_PROMPT = "You are a chatbot designed to help diabetes patients. Provide answers based on the provided context."
 
@@ -33,18 +35,18 @@ def format_docs(docs):
 # PDF에서 텍스트 추출
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
-    text = ""
+    texts = []
     for page_num in range(len(doc)):
         page = doc.load_page(page_num)
-        text += page.get_text()
-    return text
+        texts.append(page.get_text())
+    return texts
 
 # PDF 파일 경로
 pdf_path = "2023_당뇨병_진료지침_전문_최종.pdf"  # 실제 PDF 파일 경로로 교체
 
 # PDF에서 추출한 텍스트를 문서로 변환
-pdf_text = extract_text_from_pdf(pdf_path)
-documents = [Document(page_content=pdf_text)]
+pdf_texts = extract_text_from_pdf(pdf_path)
+documents = [Document(page_content=text) for text in pdf_texts]
 
 # 간단한 키워드 기반 문서 검색기 정의
 embedding = OpenAIEmbeddings()
@@ -56,7 +58,7 @@ vectordb = Chroma.from_documents(
 retriever = vectordb.as_retriever()
 
 qa_chain = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(model='gpt-4o', temperature=0),
+    llm=ChatOpenAI(model='gpt-3.5-turbo', temperature=0),
     chain_type="stuff",
     retriever=retriever,
     return_source_documents=True)
