@@ -11,7 +11,9 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
-
+from langchain_community.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import PyMuPDFLoader
+from langchain_community.document_loaders import TextLoader
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 # 시스템 프롬프트 정의
@@ -41,12 +43,21 @@ def extract_text_from_pdf(pdf_path):
         texts.append(page.get_text())
     return texts
 
-# PDF 파일 경로
-pdf_path = "2023_당뇨병_진료지침_전문_최종.pdf"  # 실제 PDF 파일 경로로 교체
 
-# PDF에서 추출한 텍스트를 문서로 변환
-pdf_texts = extract_text_from_pdf(pdf_path)
-documents = [Document(page_content=text) for text in pdf_texts]
+
+# 각 확장자 별로 문서 로더 정의
+loaders = {
+    'pdf': {'loader':PyMuPDFLoader, 'kwargs': {}},
+    'txt': {'loader':TextLoader, 'kwargs': {'autodetect_encoding': True}}
+}
+
+documents = []
+for file_type, value in loaders.items():
+    loader = value['loader']
+    loader_kwargs = value['kwargs']
+
+    loader = DirectoryLoader(path=f"data/{file_type}", glob=f"**/*.{file_type}",loader_cls=loader, loader_kwargs=loader_kwargs)
+    documents.extend(loader.load())
 
 # 간단한 키워드 기반 문서 검색기 정의
 embedding = OpenAIEmbeddings()
