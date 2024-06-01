@@ -8,4 +8,3 @@ gradio
 unstructured
 pymupdf
 streamlit
-python-dotenv
