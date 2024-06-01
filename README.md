@@ -1,24 +1,2 @@
-# requirement 
-
-langchain
-
-openai
-
-tiktoken 
-
-chromadb 
-
-langchain-community 
-
-langchain-openai 
-
-gradio 
-
-unstructured
-
-pymupdf
-
-streamlit
-
-python-dotenv
-
+인공지능서비스개발
+이인재 송채빈 임현수 팀
