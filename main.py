@@ -29,22 +29,6 @@ Question: {question}
 # 프롬프트 템플릿 생성
 prompt = ChatPromptTemplate.from_template(template)
 
-
-# 문서 형식화 함수 정의
-def format_docs(docs):
-    return '\n\n'.join(doc.page_content for doc in docs)
-
-# PDF에서 텍스트 추출
-def extract_text_from_pdf(pdf_path):
-    doc = fitz.open(pdf_path)
-    texts = []
-    for page_num in range(len(doc)):
-        page = doc.load_page(page_num)
-        texts.append(page.get_text())
-    return texts
-
-
-
 # 각 확장자 별로 문서 로더 정의
 loaders = {
     'pdf': {'loader':PyMuPDFLoader, 'kwargs': {}},
