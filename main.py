@@ -8,8 +8,8 @@ from langchain_community.document_loaders import DirectoryLoader, PyMuPDFLoader,
 from streaming import StreamHandler
 import utils
 
-st.title("당뇨 환자들을 위한 챗봇")
-#asdfasdf
+st.title("당뇨 환자들을 위한 챗봇 💊")
+
 # openai key input gui. 없으면 여기서 멈춤 있으면 계속 진행
 model_name = utils.configure_openai()
 
@@ -51,10 +51,11 @@ if "qa_chain" not in st.session_state:
 
 #chat gui
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "안녕하세요! 당뇨병에 관한 질문을 주세요!"}]
 
 for msg in st.session_state["messages"]:
     st.chat_message(msg["role"]).write(msg["content"])
+
 
 user_query = st.chat_input(placeholder="당뇨 관련 질문하세요!")
 
