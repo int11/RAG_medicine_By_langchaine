@@ -8,8 +8,9 @@ from langchain_community.document_loaders import DirectoryLoader, PyMuPDFLoader,
 from streaming import StreamHandler
 import utils
 
-st.title("당뇨 환자들을 위한 챗봇 💊")
 
+st.title("당뇨 환자들을 위한 챗봇")
+# 나 혼자 해보는 커밋 및 푸시!!!!!!!!!!!!!
 # openai key input gui. 없으면 여기서 멈춤 있으면 계속 진행
 model_name = utils.configure_openai()
 
