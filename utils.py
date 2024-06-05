@@ -19,8 +19,8 @@ def configure_openai():
         st.session_state['OPENAI_API_KEY'] = openai_api_key
         os.environ['OPENAI_API_KEY'] = openai_api_key
     else:
-        st.warning("🔑 API 키를 추가하고 진행해주세요!")
-        st.info("🔗 링크를 통해 API 키를 발급받을 수 있습니다. https://platform.openai.com/account/api-keys")
+        st.warning("🔑 API 키를 입력하고 진행해주세요!")
+        #st.info("🔗 링크를 통해 API 키를 발급받을 수 있습니다. https://platform.openai.com/account/api-keys") - 이게 있으니 st.spinner이 info 위에서 돌고있어서 없애버렸습니다. st.spinner 코드 위치를 바꾸면 이거를 넣어도될거 같은데.. 
         st.stop()
 
     model = "gpt-4o"
