@@ -16,37 +16,38 @@ model_name = utils.configure_openai()
 
 # qa_chain 최초로 한번 정의하고 session_state에 저장해둠.  os.environ['OPENAI_API_KEY'] 없는 상태로 Chroma 객체 생성하면 에러남
 if "qa_chain" not in st.session_state:
+    with st.spinner('답변에 필요한 문서를 읽고 있습니다. 잠시만 기다려주세요.'):
     # 각 확장자 별로 문서 로더 정의
-    documents = []
+        documents = []
 
-    loaders = {
-        'pdf': {'loader':PyMuPDFLoader, 'kwargs': {}},
-        'txt': {'loader':TextLoader, 'kwargs': {'autodetect_encoding': True}}
-    }
-    for file_type, value in loaders.items():
-        loader = value['loader']
-        loader_kwargs = value['kwargs']
+        loaders = {
+            'pdf': {'loader':PyMuPDFLoader, 'kwargs': {}},
+            'txt': {'loader':TextLoader, 'kwargs': {'autodetect_encoding': True}}
+        }
+        for file_type, value in loaders.items():
+            loader = value['loader']
+            loader_kwargs = value['kwargs']
 
-        loader = DirectoryLoader(path=f"data/{file_type}", glob=f"**/*.{file_type}",loader_cls=loader, loader_kwargs=loader_kwargs)
-        documents.extend(loader.load())
+            loader = DirectoryLoader(path=f"data/{file_type}", glob=f"**/*.{file_type}",loader_cls=loader, loader_kwargs=loader_kwargs)
+            documents.extend(loader.load())
 
-    # 간단한 키워드 기반 문서 검색기 정의
-    embedding = OpenAIEmbeddings()
+        # 간단한 키워드 기반 문서 검색기 정의
+        embedding = OpenAIEmbeddings()
 
-    vectordb = Chroma.from_documents(
-        documents=documents,
-        embedding=embedding)
+        vectordb = Chroma.from_documents(
+            documents=documents,
+            embedding=embedding)
 
-    retriever = vectordb.as_retriever()
+        retriever = vectordb.as_retriever()
 
-    llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
+        llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
 
-    st.session_state["qa_chain"] = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=retriever,
-        return_source_documents=True
-    )
+        st.session_state["qa_chain"] = RetrievalQA.from_chain_type(
+            llm=llm,
+            chain_type="stuff",
+            retriever=retriever,
+            return_source_documents=True
+        )
 
 
 #chat gui

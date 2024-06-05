@@ -41,6 +41,6 @@ def configure_openai():
         st.stop()
     except Exception as e:
         print(e)
-        st.error("문제가 발생한거 같아요, 잠시 후 다시 시도해보시겠어요?")
+        st.error("문제가 발생한거 같아요, API key를 다시 확인해보시겠어요?")
         st.stop()
     return model
