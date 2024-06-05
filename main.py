@@ -8,6 +8,11 @@ from langchain_community.document_loaders import DirectoryLoader, PyMuPDFLoader,
 from streaming import StreamHandler
 import utils
 
+""" 
+st.spinner를 넣어서 오류가 발생한게 아니라, 
+그냥 VS code에서 최초로 실행 및 디버그 했을 땐 정상적으로 작동하다가, 챗봇 화면 새로고침하고 다시 api 키 입력한 뒤 질문하면 Reference가 중복되는걸 발견함.
+아예 VS code로 돌아와서 ctrl + c로 streamlit run 종료하고 다시 실행 및 디버깅하면 Reference 정상작동. 한번 해봐주세요
+"""
 
 st.title("당뇨 환자들을 위한 챗봇 💊")
 # openai key input gui. 없으면 여기서 멈춤 있으면 계속 진행
