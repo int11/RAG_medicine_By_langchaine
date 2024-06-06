@@ -3,9 +3,6 @@ import openai
 from datetime import datetime
 import streamlit as st
  
-st.sidebar.markdown('[![](https://img.shields.io/badge/7조_소스코드_보러가기-red?logo=github)](https://github.com/int11/langchaine_medicine/blob/main/main.py)')
-# 소스 코드로 바로가기 추가-
- 
 def configure_openai():  
     openai_api_key = st.sidebar.text_input(
         label="🗝️ OpenAI API Key",
