@@ -37,10 +37,8 @@ if not hasattr(st, "qa_chain"):
 
         # 간단한 키워드 기반 문서 검색기 정의
         embedding = OpenAIEmbeddings()
-
-        st.vectordb = Chroma.from_documents(
-            documents=documents,
-            embedding=embedding)
+        
+        st.vectordb = Chroma(embedding_function=embedding) if len(documents) == 0 else Chroma.from_documents(documents=documents, embedding=embedding)
 
         retriever = st.vectordb.as_retriever()
 
