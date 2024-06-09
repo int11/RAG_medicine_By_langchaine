@@ -8,3 +8,4 @@ gradio
 unstructured
 pymupdf
 streamlit
+pysqlite3-binary
