@@ -11,13 +11,12 @@ def configure_openai():
         placeholder="sk-..."
         )
     
-    
     if openai_api_key:
         st.session_state['OPENAI_API_KEY'] = openai_api_key
         os.environ['OPENAI_API_KEY'] = openai_api_key
     else:
         st.warning("🔑 API 키를 입력하고 진행해주세요!")
-        #st.info("🔗 링크를 통해 API 키를 발급받을 수 있습니다. https://platform.openai.com/account/api-keys") - 이게 있으니 st.spinner이 info 위에서 돌고있어서 없애버렸습니다. st.spinner 코드 위치를 바꾸면 이거를 넣어도될거 같은데ㅠㅠ 
+        st.info("🔗 링크를 통해 API 키를 발급받을 수 있습니다. https://platform.openai.com/account/api-keys") 
         st.stop()
 
     model = "gpt-4o" # 모델 변경
@@ -30,8 +29,8 @@ def configure_openai():
         model = st.sidebar.selectbox(
             label="✅ Model 선택",
             options=available_models,
-            index=available_models.index(st.session_state['OPENAI_MODEL']) if 'OPENAI_MODEL' in st.session_state else 18  # 인덱스 18은 gpt-4o로 기본값 설정되도록
-        )
+            index=available_models.index(st.session_state['OPENAI_MODEL']) if 'OPENAI_MODEL' in st.session_state 
+                  else available_models.index(model))
         st.session_state['OPENAI_MODEL'] = model
     except openai.AuthenticationError as e:
         st.error(e.body["message"])

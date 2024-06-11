@@ -59,7 +59,7 @@ if not hasattr(st, "qa_chain"):
 
 
 # User file uploader
-uploaded_files = st.sidebar.file_uploader(label='Upload PDF files', type=['pdf', 'txt'], accept_multiple_files=True)
+uploaded_files = st.sidebar.file_uploader(label='파일을 올려주세요', type=loaders.keys(), accept_multiple_files=True)
     
 for uploaded_file in uploaded_files:
     _, extension = os.path.splitext(uploaded_file.name)
