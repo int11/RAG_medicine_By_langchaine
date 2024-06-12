@@ -59,7 +59,7 @@ if not hasattr(st, "qa_chain"):
 
         llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
         
-       st.qa_chain = ConversationalRetrievalChain.from_llm(
+        st.qa_chain = ConversationalRetrievalChain.from_llm(
             llm=llm,
             retriever=retriever,
             memory=memory,
