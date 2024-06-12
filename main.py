@@ -59,14 +59,13 @@ if not hasattr(st, "qa_chain"):
 
         llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
         
-        qa_chain = ConversationalRetrievalChain.from_llm(
+       st.qa_chain = ConversationalRetrievalChain.from_llm(
             llm=llm,
             retriever=retriever,
             memory=memory,
             return_source_documents=True,
             verbose=True
         )
-
 
 # User file uploader
 uploaded_files = st.sidebar.file_uploader(label='파일을 올려주세요', type=loaders.keys(), accept_multiple_files=True)
