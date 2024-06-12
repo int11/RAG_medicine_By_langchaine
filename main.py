@@ -10,6 +10,8 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
 from langchain_community.document_loaders import DirectoryLoader, PyMuPDFLoader, TextLoader
 from streaming import StreamHandler
 import utils
@@ -48,13 +50,21 @@ if not hasattr(st, "qa_chain"):
 
         retriever = st.vectordb.as_retriever()
 
-        llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
+        # Setup memory for contextual conversation        
+        memory = ConversationBufferMemory(
+            memory_key='chat_history',
+            output_key='answer',
+            return_messages=True
+        )
 
-        st.qa_chain = RetrievalQA.from_chain_type(
+        llm = ChatOpenAI(model_name=model_name, temperature=0, streaming=True)
+        
+        qa_chain = ConversationalRetrievalChain.from_llm(
             llm=llm,
-            chain_type="stuff",
             retriever=retriever,
-            return_source_documents=True
+            memory=memory,
+            return_source_documents=True,
+            verbose=True
         )
 
 
